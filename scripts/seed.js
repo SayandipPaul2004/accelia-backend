@@ -5,7 +5,9 @@ const Admin = require("../models/Admin");
 async function seed() {
   await mongoose.connect(process.env.MONGO_URI);
 
-  const existing = await Admin.findOne({ email: "admin@accelia.in" });
+  const existing = await Admin.findOne({
+    email: "admin@acceliaclinicalsolutions.com",
+  });
   if (existing) {
     console.log("Admin already exists!");
     process.exit(0);
@@ -13,8 +15,8 @@ async function seed() {
 
   await Admin.create({
     name: "Suman Dutta",
-    email: "admin@accelia.in",
-    password: "sayandip",
+    email: "admin@acceliaclinicalsolutions.com",
+    password: "8786@Sdutta",
     role: "superadmin",
     isActive: true,
   });
