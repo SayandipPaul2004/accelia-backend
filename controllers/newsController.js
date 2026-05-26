@@ -4,7 +4,7 @@ const News = require("../models/News");
 exports.getNews = async (req, res) => {
   try {
     const { limit = 20, page = 1 } = req.query;
-    const filter = req.query.admin ? {} : { published: true };
+    const filter = req.query.admin ? {} : { isActive: true };
 
     const news = await News.find(filter)
       .sort({ createdAt: -1 })
@@ -49,7 +49,8 @@ exports.createNews = async (req, res) => {
   try {
     const news = await News.create({
       ...req.body,
-      author: req.admin._id,
+      author: req.admin?._id || req.user?._id,
+      isActive: req.body.isActive ?? false,
     });
 
     res.status(201).json(news);
