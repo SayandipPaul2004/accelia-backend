@@ -4,7 +4,7 @@ const News = require("../models/News");
 exports.getNews = async (req, res) => {
   try {
     const { limit = 20, page = 1 } = req.query;
-    const filter = req.query.admin ? {} : { isActive: true };
+    const filter = req.query.admin ? {} : { published: true };
 
     const news = await News.find(filter)
       .sort({ createdAt: -1 })
@@ -28,16 +28,8 @@ exports.getNews = async (req, res) => {
 exports.getNewsById = async (req, res) => {
   try {
     const news = await News.findById(req.params.id).populate("author", "name");
-
-    if (!news) {
-      return res.status(404).json({ message: "Not found" });
-    }
-
-    // increment views
-    await News.findByIdAndUpdate(req.params.id, {
-      $inc: { views: 1 },
-    });
-
+    if (!news) return res.status(404).json({ message: "Not found" });
+    await News.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } });
     res.json(news);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -49,10 +41,9 @@ exports.createNews = async (req, res) => {
   try {
     const news = await News.create({
       ...req.body,
-      author: req.admin?._id || req.user?._id,
-      isActive: req.body.isActive ?? false,
+      author: req.admin._id,
+      published: req.body.isActive ?? false,
     });
-
     res.status(201).json(news);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -62,15 +53,16 @@ exports.createNews = async (req, res) => {
 // UPDATE
 exports.updateNews = async (req, res) => {
   try {
-    const news = await News.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = { ...req.body };
+    if ("isActive" in updateData) {
+      updateData.published = updateData.isActive;
+      delete updateData.isActive;
+    }
+    const news = await News.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
     });
-
-    if (!news) {
-      return res.status(404).json({ message: "Not found" });
-    }
-
+    if (!news) return res.status(404).json({ message: "Not found" });
     res.json(news);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -81,7 +73,6 @@ exports.updateNews = async (req, res) => {
 exports.deleteNews = async (req, res) => {
   try {
     await News.findByIdAndDelete(req.params.id);
-
     res.json({ message: "Deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
