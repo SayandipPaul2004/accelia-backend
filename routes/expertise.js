@@ -3,20 +3,24 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 const {
-  getExpertise,
-  getExpertiseById,
-  createExpertise,
-  updateExpertise,
-  deleteExpertise,
+  getAllExpertise,
+  adminGetById,
+  create,
+  update,
+  toggle,
+  reorder,
+  remove,
 } = require("../controllers/expertiseController");
 
 // PUBLIC
-router.get("/", getExpertise);
-router.get("/:id", getExpertiseById);
+router.get("/", getAllExpertise);
+router.get("/:id", adminGetById);
 
 // PROTECTED
-router.post("/", auth, createExpertise);
-router.patch("/:id", auth, updateExpertise);
-router.delete("/:id", auth, deleteExpertise);
+router.post("/", auth, create);
+router.patch("/reorder", auth, reorder); // ⚠️ must be before /:id
+router.patch("/:id/toggle", auth, toggle);
+router.patch("/:id", auth, update);
+router.delete("/:id", auth, remove);
 
 module.exports = router;
