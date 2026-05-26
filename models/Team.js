@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const teamSchema = new mongoose.Schema(
   {
     name: {
@@ -30,11 +29,11 @@ const teamSchema = new mongoose.Schema(
       default: "Active",
     },
     avatar: {
-      type: String, // base64 string or URL from cloudinary/s3
+      type: String,
       default: null,
     },
     joined: {
-      type: String, // e.g. "Jan 2021" — stored as formatted string
+      type: String,
       default: "",
     },
     projects: {
@@ -43,11 +42,11 @@ const teamSchema = new mongoose.Schema(
     },
     order: {
       type: Number,
-      default: 0, // for manual sorting in admin
+      default: 0,
     },
   },
   {
-    timestamps: true, // adds createdAt and updatedAt
+    timestamps: true,
   },
 );
 

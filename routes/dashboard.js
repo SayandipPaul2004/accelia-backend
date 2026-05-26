@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
-
-// Example dashboard stats
 router.get("/", auth, async (req, res) => {
   try {
     res.json({
@@ -18,4 +16,4 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-module.exports = router; // ✅ VERY IMPORTANT
+module.exports = router;

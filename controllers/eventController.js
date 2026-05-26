@@ -1,5 +1,4 @@
 const Event = require("../models/Event");
-
 exports.getEvents = async (req, res) => {
   try {
     const isAdmin =

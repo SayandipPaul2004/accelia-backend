@@ -12,7 +12,7 @@ async function seed() {
   }
 
   await Admin.create({
-    name: "Super Admin",
+    name: "Suman Dutta",
     email: "admin@accelia.in",
     password: "sayandip",
     role: "superadmin",

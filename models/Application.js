@@ -1,4 +1,3 @@
-// models/Application.js
 const mongoose = require("mongoose");
 
 const applicationSchema = new mongoose.Schema(
@@ -8,27 +7,23 @@ const applicationSchema = new mongoose.Schema(
       ref: "Job",
       required: true,
     },
-    jobTitle: { type: String, required: true },
-    department: { type: String },
-    location: { type: String },
-
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, lowercase: true },
     phone: { type: String, trim: true },
-
-    // CV stored as base64 string + metadata (no S3/disk needed)
+    experience: { type: String, trim: true },
+    linkedin: { type: String, trim: true },
+    coverLetter: { type: String, trim: true },
     cv: {
-      filename: { type: String },
-      mimetype: { type: String },
-      size: { type: Number },
-      data: { type: String }, // base64
+      url: { type: String },
+      public_id: { type: String },
+      originalName: { type: String },
     },
-
     status: {
       type: String,
       enum: ["new", "reviewing", "shortlisted", "rejected"],
       default: "new",
     },
+    note: { type: String, default: "" },
   },
   { timestamps: true },
 );

@@ -10,7 +10,7 @@ const NewsSchema = new mongoose.Schema(
 
     content: {
       type: String,
-      required: true, // 🔥 THIS WAS YOUR MAIN ERROR SOURCE
+      required: true,
     },
 
     category: {

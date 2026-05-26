@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 
 const {
   getExpertise,
+  getExpertiseById,
   createExpertise,
   updateExpertise,
   deleteExpertise,
@@ -11,10 +12,11 @@ const {
 
 // PUBLIC
 router.get("/", getExpertise);
+router.get("/:id", getExpertiseById);
 
 // PROTECTED
 router.post("/", auth, createExpertise);
-router.put("/:id", auth, updateExpertise);
+router.patch("/:id", auth, updateExpertise);
 router.delete("/:id", auth, deleteExpertise);
 
 module.exports = router;

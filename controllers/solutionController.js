@@ -1,6 +1,4 @@
 const Solution = require("../models/Solution");
-
-// GET ALL
 exports.getSolutions = async (req, res) => {
   try {
     const filter = req.query.admin ? {} : { isActive: true };

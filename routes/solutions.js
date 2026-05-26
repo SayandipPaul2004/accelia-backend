@@ -9,10 +9,7 @@ const {
   deleteSolution,
 } = require("../controllers/solutionController");
 
-// PUBLIC
 router.get("/", getSolutions);
-
-// PROTECTED
 router.post("/", auth, createSolution);
 router.put("/:id", auth, updateSolution);
 router.delete("/:id", auth, deleteSolution);
