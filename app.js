@@ -39,6 +39,7 @@ app.use("/api/events", require("./routes/events"));
 app.use("/api/locations", require("./routes/locations"));
 app.use("/api/team", require("./routes/team"));
 app.use("/api/applications", require("./routes/applications"));
+app.use("/api/about", require("./routes/about"));
 app.get("/", (req, res) => {
   res.send("🚀 Accelia Backend Running");
 });
