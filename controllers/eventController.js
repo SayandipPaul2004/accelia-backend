@@ -1,4 +1,6 @@
 const Event = require("../models/Event");
+const cloudinary = require("../config/cloudinary");
+
 exports.getEvents = async (req, res) => {
   try {
     const isAdmin =
@@ -25,16 +27,49 @@ exports.getEventById = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
   try {
-    const event = await Event.create(req.body);
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    let imageUrl = "";
+
+    if (req.file) {
+      imageUrl = req.file.path;
+    } else if (req.body.imageUrl) {
+      imageUrl = req.body.imageUrl;
+    }
+
+    const event = new Event({
+      title: req.body.title,
+      type: req.body.type || "Conference",
+      date: req.body.date,
+      time: req.body.time || "",
+      location: req.body.location,
+      description: req.body.description || "",
+      imageUrl,
+      registrationLink: req.body.registrationLink || "",
+      isActive: req.body.isActive === "true",
+    });
+
+    await event.save();
+
     res.status(201).json(event);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.log(err);
+
+    res.status(400).json({
+      message: err.message,
+      body: req.body,
+    });
   }
 };
 
 exports.updateEvent = async (req, res) => {
   try {
-    const event = await Event.findByIdAndUpdate(req.params.id, req.body, {
+    let updateData = { ...req.body };
+    if (req.file) {
+      updateData.imageUrl = req.file.path; // Cloudinary URL
+    }
+    const event = await Event.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
     if (!event) return res.status(404).json({ message: "Not found" });

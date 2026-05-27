@@ -4,24 +4,37 @@ const EventSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title is required"],
+      trim: true,
+    },
+
+    type: {
+      type: String,
+      default: "Conference",
       trim: true,
     },
 
     date: {
-      type: Date, // ✅ changed from String → Date (better)
-      required: true,
+      type: Date,
+      required: [true, "Date is required"],
+    },
+
+    time: {
+      type: String,
+      default: "",
+      trim: true,
     },
 
     location: {
       type: String,
-      required: true,
+      required: [true, "Location is required"],
       trim: true,
     },
 
     description: {
       type: String,
       default: "",
+      trim: true,
     },
 
     imageUrl: {
@@ -32,6 +45,7 @@ const EventSchema = new mongoose.Schema(
     registrationLink: {
       type: String,
       default: "",
+      trim: true,
     },
 
     isActive: {
@@ -39,7 +53,9 @@ const EventSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 module.exports = mongoose.model("Event", EventSchema);
