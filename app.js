@@ -12,6 +12,8 @@ const allowedOrigins = [
   "https://www.acceliaclinicalsolutions.com",
   "https://acceliaclinicalsolutions.com",
 
+  "https://admin.acceliaclinicalsolutions.com",
+
   /\.vercel\.app$/,
 ];
 
