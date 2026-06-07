@@ -3,7 +3,7 @@ const Admin = require("../models/Admin");
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    expiresIn: process.env.JWT_EXPIRES_IN || "30d",
   });
 
 exports.login = async (req, res) => {
